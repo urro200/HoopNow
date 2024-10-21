@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from "react-native";
 //import React from 'react'
-import { useEffect } from 'react'
-import { SplashScreen, Stack } from 'expo-router'
-import { useFonts } from 'expo-font'
+import { useEffect } from "react";
+import { SplashScreen, Stack } from "expo-router";
+import { useFonts } from "expo-font";
+import GlobalProvider from "../context/GlobalProvider";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -20,27 +21,21 @@ const RootLayout = () => {
   });
 
   useEffect(() => {
-    if(error) throw error;
-    if(fontsLoaded) SplashScreen.hideAsync();
-  }, [fontsLoaded, error])
+    if (error) throw error;
+    if (fontsLoaded) SplashScreen.hideAsync();
+  }, [fontsLoaded, error]);
 
-  if(!fontsLoaded && !error) return null;
+  if (!fontsLoaded && !error) return null;
 
+  return (
+    <GlobalProvider>
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
+    </GlobalProvider>
+  );
+};
 
-  return ( 
-  <Stack>
-    <Stack.Screen name = "index"
-    options={{ headerShown:false }} />
-    <Stack.Screen name = "(auth)"
-    options={{ headerShown:false }} />
-    <Stack.Screen name = "(tabs)"
-    options={{ headerShown:false }} />
-    {/*<Stack.Screen name = "/search/[query]"
-    options={{ headerShown:false }} />}*/}
-  </Stack>
-  
-  )
-}
-
-export default RootLayout
-
+export default RootLayout;
